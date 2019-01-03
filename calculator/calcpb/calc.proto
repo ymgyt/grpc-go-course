@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package calc;
+option go_package="calcpb";
+
+message CalcRequest {
+    int64 Arg1 = 1;
+    int64 Arg2 = 2;
+}
+
+message CalcResponse {
+    int64 Result = 1;
+}
+
+message PrimeNumberDecomposeRequest {
+    int64 PrimeNumber = 1;
+}
+
+message PrimeNumberDecomposeResponse {
+    int64 Factor = 1;
+}
+
+message AverageRequest {
+    int64 Number = 1;
+}
+
+message AverageResponse {
+    double Average = 1;
+}
+
+message FindMaximumRequest {
+    int64 Number = 1;
+}
+
+message FindMaximumResponse {
+    int64 Maximum = 1;
+}
+
+message SquareRootRequest {
+    int32 number = 1;
+}
+
+message SquareRootResponse {
+    double number_root = 1;
+}
+
+service CalcService {
+    rpc Calc(CalcRequest) returns (CalcResponse) {};
+
+    rpc PrimeNumberDecompose(PrimeNumberDecomposeRequest) returns (stream PrimeNumberDecomposeResponse) {};
+
+    rpc Average(stream AverageRequest) returns (AverageResponse) {};
+
+    rpc FindMaximum(stream FindMaximumRequest) returns (stream FindMaximumResponse) {};
+
+    // error handling
+    // this RPC will throw an exeception if the sent number is negative
+    // The error being sent is of type INVALID_ARGUMENT
+    rpc SquareRoot(SquareRootRequest) returns (SquareRootResponse) {};
+}
